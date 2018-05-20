@@ -15,7 +15,7 @@ var command = process.argv[2]
 var searchTerm = process.argv[3]
 var enter = "\n"
 
-//Twitter
+//////////////////Twitter//////////////////
 if (command === "my-tweets") {
 
     var params = {
@@ -29,14 +29,13 @@ if (command === "my-tweets") {
                 var tweetLines = (tweets[i].text)
                 fs.appendFile("log.txt", enter + tweetLines + enter, function(err) {
                     if (err) throw err;
-                  });
+                });
             }
         }
     })
-    
 }
 
-//Spotify
+//////////////////Spotify//////////////////
 if (command === "spotify-this-song") {
     var Spotify = require('node-spotify-api');
     spotify.search({
@@ -49,15 +48,15 @@ if (command === "spotify-this-song") {
         }
         var spotify1 = data.tracks.items
         for (var i = 0; i < spotify1.length; i++)
-            var spotifyOutput = ("Artist: " + spotify1[i].artists[i].name + 
-            "\nTrack Name: " + spotify1[0].name + 
-            "\nSpotify Link: " + spotify1[0].href + 
-            "\nAlbum Name: " + spotify1[0].album.name)
-            console.log(spotifyOutput)
+            var spotifyOutput = ("Artist: " + spotify1[i].artists[i].name +
+                "\nTrack Name: " + spotify1[0].name +
+                "\nSpotify Link: " + spotify1[0].href +
+                "\nAlbum Name: " + spotify1[0].album.name)
+        console.log(spotifyOutput)
 
-            fs.appendFile("log.txt", enter+ spotifyOutput + enter, function(err) {
-                if (err) throw err
-              })
+        fs.appendFile("log.txt", enter + spotifyOutput + enter, function(err) {
+            if (err) throw err
+        })
     });
 }
 //What To Display
@@ -66,8 +65,7 @@ if (command === "spotify-this-song") {
 // A preview link of the song from Spotify
 // The album that the song is from
 
-
-//OMDB Movie
+//////////////////OMDB Movie//////////////////
 if (command === "movie-this") {
     if (!searchTerm) {
         searchTerm = "Lord Of War";
@@ -82,11 +80,11 @@ if (command === "movie-this") {
             "\nLanguage: " + body.Language +
             "\nPlot: " + body.Plot +
             "\nActors: " + body.Actors)
-            console.log(movies)
+        console.log(movies)
 
-            fs.appendFile("log.txt", enter+ spotifyOutput + movies, function(err) {
-                if (err) throw err
-              })
+        fs.appendFile("log.txt", enter + spotifyOutput + movies, function(err) {
+            if (err) throw err
+        })
 
         //  * Title of the movie.
         //  * Year the movie came out.
@@ -98,34 +96,30 @@ if (command === "movie-this") {
         //  * Actors in the movie.
     });
 }
-
+////////////////// Do What It Says//////////////////
 if (command === "do-what-it-says") {
-	fs.readFile('random.txt', "utf8", function(error, data){
-	  var SpotifyDo = data.split(",")
-  
-    // console.log(SpotifyDo[1])
+    fs.readFile('random.txt', "utf8", function(error, data) {
+        var SpotifyDo = data.split(",")
+        spotify.search({
+                type: 'track',
+                query: SpotifyDo[1]
+            },
+            function(err, data) {
+                if (err) {
+                    console.log('Error occurred: ' + err);
+                    return;
+                } else {
+                    spotifyOutput =
+                        "Song Name: " + "'" + data.tracks.items[0].name + "\n" +
+                        "Album Name: " + data.tracks.items[0].album.name + "\n" +
+                        "Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n" +
+                        "URL: " + data.tracks.items[0].album.external_urls.spotify + "\n";
+                    console.log(spotifyOutput);
 
-    spotify.search({
-        type: 'track',
-        query: SpotifyDo[1]
-    }, 
-    function (err, data) {
-        if (err) {
-            console.log('Error occurred: ' + err);
-            return;
-        } else {
-            spotifyOutput =
-                "Song Name: " + "'" + data.tracks.items[0].name + "\n" +
-                "Album Name: " + data.tracks.items[0].album.name + "\n" +
-                "Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n" +
-                "URL: " + data.tracks.items[0].album.external_urls.spotify + "\n";
-            console.log(spotifyOutput);
-
-            fs.appendFile("log.txt", enter+ spotifyOutput + enter, function(err) {
-                if (err) throw err
-              })
-
-        }
+                    fs.appendFile("log.txt", enter + spotifyOutput + enter, function(err) {
+                        if (err) throw err
+                    })
+                }
+            });
     });
-	});
-  }
+}
