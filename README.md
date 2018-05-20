@@ -7,7 +7,7 @@ You will need to have the following Node.js packages installed prior to running 
 # Instructions
 In the command line, enter "node liri.js (command) (specify)." (Command) and (specify) are placeholders for user inputs. See below for a list of possible commands. Specify refers to a specific search query, such as a movie or song title, which is entered as a string enclosed in quotes.
 
-You'll need to create a .env file and add the following information between the dotted lines:
+You'll need to create a .env file and add the following information between the lines:
 
 -----------------------------------------------------------
 
