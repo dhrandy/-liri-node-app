@@ -82,7 +82,7 @@ if (command === "movie-this") {
             "\nActors: " + body.Actors)
         console.log(movies)
 
-        fs.appendFile("log.txt", enter + spotifyOutput + movies, function(err) {
+        fs.appendFile("log.txt", enter + movies, function(err) {
             if (err) throw err
         })
 
